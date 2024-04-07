@@ -3,6 +3,7 @@ from src.models.settings.connection import db_connection_handler
 from src.models.entities.events import Events
 from src.models.entities.attendees import Attendees
 from sqlalchemy.exc import IntegrityError, NoResultFound
+from src.errors.error_types.http_conflict import HttpConflictError
 
 class EventsRepository:
     def insert_event(self, events_info: Dict) -> Dict:
@@ -19,7 +20,7 @@ class EventsRepository:
                 database.session.commit()
                 return events_info
             except IntegrityError:
-                raise Exception("Evento já cadastrado!")
+                raise HttpConflictError("Evento já cadastrado!")
             except Exception as exception:
                 database.session.rollback()
                 raise exception

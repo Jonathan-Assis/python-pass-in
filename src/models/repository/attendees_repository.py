@@ -4,6 +4,7 @@ from src.models.entities.attendees import Attendees
 from src.models.entities.check_ins import CheckIns
 from src.models.entities.events import Events
 from sqlalchemy.exc import IntegrityError, NoResultFound
+from src.errors.error_types.http_conflict import HttpConflictError
 
 class AttendeesRepository:
     def insert_attendee(self, attendee_info: Dict) -> Dict:
@@ -21,7 +22,7 @@ class AttendeesRepository:
                 database.session.commit()
                 return attendee_info
             except IntegrityError:
-                raise Exception("Participante já cadastrado!")
+                raise HttpConflictError("Participante já cadastrado!")
             except Exception as exception:
                 database.session.rollback()
                 raise exception
