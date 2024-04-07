@@ -1,5 +1,4 @@
 from src.http_types.http_request import HttpRequest
-from src.http_types.http_response import HttpResponse
 from flask import Blueprint, jsonify, request
 from src.data.event_handler import EventHandler
 
